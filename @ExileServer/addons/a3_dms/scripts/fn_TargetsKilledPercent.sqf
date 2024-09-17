@@ -6,37 +6,36 @@
     [
         _unit,
         _group,
-        _object
+        _object,
+        _threshold
     ] call DMS_fnc_TargetsKilledPercent;
 
     Will accept non-array argument of group, unit, or object.
 */
 
-if (_this isEqualTo []) exitWith
+if (!(_this isEqualType [])) exitWith
 {
-    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with empty array!";
+    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with non-array argument!";
 };
+
+if (count _this < 4) exitWith
+{
+    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with insufficient parameters!";
+};
+
+private _unit = _this select 0;
+private _group = _this select 1;
+private _object = _this select 2;
+private _threshold = _this select 3;
 
 private _killedpercent = false;
 
-// Get the kill percent value from config
-private _killPercent = DMS_AI_KillPercent;
-
-// Static variable to store initial unit count
-if (isNil "DMS_initialUnitCount") then
-{
-    DMS_initialUnitCount = count (_this call DMS_fnc_GetAllUnits);
-};
-
-// Calculate the acceptable number of remaining units based on initial unit count
-private _unitsThreshold = floor((100 - _killPercent) * DMS_initialUnitCount / 100);
-
 // Get all living AI units
-private _allUnits = _this call DMS_fnc_GetAllUnits;
+private _allUnits = [_unit, _group, _object] call DMS_fnc_GetAllUnits;
 private _totalUnits = count _allUnits;
 
 // Check if the number of living units is less than or equal to the threshold
-if (_totalUnits <= _unitsThreshold) then
+if (_totalUnits <= _threshold) then
 {
     _killedpercent = true;
 };

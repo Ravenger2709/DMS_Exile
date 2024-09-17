@@ -35,6 +35,8 @@ private _exit = false;
             throw "ERROR";
         };
 
+        private _completionType = _x select 0;
+        private _completionArgs = _x select 1;
         private _absoluteWinCondition = _x param [2, false, [true]];
 
         if (!_success && {!_absoluteWinCondition}) then
