@@ -55,12 +55,12 @@ private _exit = false;
 			{
 				_success = _completionArgs call DMS_fnc_TargetsKilled;
 			};
-			/*
+			
 			case "killpercent":
 			{
-				_success = _completionArgs call DMS_fnc_TargetsKilledPercent;//<---TODO
+				_success = _completionArgs call DMS_fnc_TargetsKilledPercent;
 			};
-			*/
+			
 			case "playernear":
 			{
 				_success = _completionArgs call DMS_fnc_IsPlayerNearby;

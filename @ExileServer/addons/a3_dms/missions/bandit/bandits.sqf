@@ -139,7 +139,7 @@ _added =
 	_pos,
 	[
 		[
-			"kill",
+			"killpercent",
 			_group
 		],
 		[
