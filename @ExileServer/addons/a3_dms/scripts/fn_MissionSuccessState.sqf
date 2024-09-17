@@ -35,6 +35,8 @@ private _exit = false;
             throw "ERROR";
         };
 
+        private _completionType = _x select 0;
+        private _completionArgs = _x select 1;
         private _absoluteWinCondition = _x param [2, false, [true]];
 
         if (!_success && {!_absoluteWinCondition}) then
@@ -51,21 +53,21 @@ private _exit = false;
         {
             case "kill":
             {
-                _success = _completionArgs call DMS_fnc_TargetsKilled;
+                _success = _success && (_completionArgs call DMS_fnc_TargetsKilled);
             };
             
             case "killpercent":
             {
-                _success = _completionArgs call DMS_fnc_TargetsKilledPercent;
+                _success = _success && (_completionArgs call DMS_fnc_TargetsKilledPercent);
             };
             
             case "playernear":
             {
-                _success = _completionArgs call DMS_fnc_IsPlayerNearby;
+                _success = _success && (_completionArgs call DMS_fnc_IsPlayerNearby);
             };
-            case "external":
+            case "external":            // This is a special completion type. It is intended to be a flag for people who want to control mission completion using _onMonitorStart and _onMonitorEnd through array manipulation. You probably don't want to use this unless you know what you're doing.
             {
-                _success = _completionArgs;
+                _success = _success && _completionArgs;
             };
             default
             {
