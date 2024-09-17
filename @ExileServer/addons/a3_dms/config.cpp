@@ -90,6 +90,7 @@ class CfgFunctions
 			class SpawnStaticMission			{};
 			class SubArr						{};
 			class TargetsKilled 				{};
+			class TargetsKilledPercent 				{};
 		};
 	};
 };
