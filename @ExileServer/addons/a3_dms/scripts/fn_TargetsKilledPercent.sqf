@@ -35,7 +35,4 @@ if (_totalUnits <= _unitsToKill) then
     _killedpercent = true;
 };
 
-// Log the result using DMS_fnc_DebugLog
-[_killedpercent, "Targets Killed Percent"] call DMS_fnc_DebugLog;
-
 _killedpercent;
