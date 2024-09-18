@@ -23,28 +23,28 @@ private _killedpercent = false;
 
 // Get the kill percent value from config
 private _killPercent = DMS_AI_KillPercent;
-//diag_log format ["DMS DEBUG :: Kill percent value: %1", _killPercent];
-//diag_log format ["DMS DEBUG :: Initial unit count: %1", _initialUnitCount];
+diag_log format ["DMS DEBUG :: Kill percent value: %1", _killPercent];
+diag_log format ["DMS DEBUG :: Initial unit count: %1", _initialUnitCount];
 
 // Calculate the acceptable number of killed units based on initial unit count
 private _unitsThreshold = ceil(_killPercent * _initialUnitCount / 100);
-//diag_log format ["DMS DEBUG :: Units threshold (killed units): %1", _unitsThreshold];
+diag_log format ["DMS DEBUG :: Units threshold (killed units): %1", _unitsThreshold];
 
 // Get all living AI units
 private _allUnits = _args call DMS_fnc_GetAllUnits;
 private _totalUnits = count _allUnits;
-//diag_log format ["DMS DEBUG :: Total living units: %1", _totalUnits];
+diag_log format ["DMS DEBUG :: Total living units: %1", _totalUnits];
 
 // Calculate the number of killed units
 private _killedUnits = if (_initialUnitCount - _totalUnits > 0) then {_initialUnitCount - _totalUnits} else {0};
-//diag_log format ["DMS DEBUG :: Total killed units: %1", _killedUnits];
+diag_log format ["DMS DEBUG :: Total killed units: %1", _killedUnits];
 
 // Check if the number of killed units is greater than or equal to the threshold
 if (_killedUnits >= _unitsThreshold) then {
     _killedpercent = true;
-    //diag_log "DMS DEBUG :: Kill percent condition met";
+    diag_log "DMS DEBUG :: Kill percent condition met";
 } else {
-    //diag_log "DMS DEBUG :: Kill percent condition not met";
+    diag_log "DMS DEBUG :: Kill percent condition not met";
 };
 
 _killedpercent;

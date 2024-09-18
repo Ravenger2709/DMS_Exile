@@ -133,7 +133,7 @@ _markers =
 // Record time here (for logging purposes, otherwise you could just put "diag_tickTime" into the "DMS_AddMissionToMonitor" parameters directly)
 _time = diag_tickTime;
 
-private _initialUnitCount = _AICount; //Get inital count of bots then mission starts. It need only for "killpercent" condnition. Look for deatiled info in DMS_fnc_TargetsKilledPercent
+private _initialUnitCount = count (_group call DMS_fnc_GetAllUnits); //Get inital count of bots then mission starts. It need only for "killpercent" condnition. Look for detailed info in DMS_fnc_TargetsKilledPercent
 
 // Parse and add mission info to missions monitor
 _added =
