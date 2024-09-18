@@ -4,46 +4,47 @@
 
     Usage:
     [
+        _initialUnitCount,
         _unit,
         _group,
-        _object,
-        _threshold
+        _object
     ] call DMS_fnc_TargetsKilledPercent;
 
     Will accept non-array argument of group, unit, or object.
 */
 
-if (!(_this isEqualType [])) exitWith
-{
-    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with non-array argument!";
+if (_this isEqualTo []) exitWith {
+    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with empty array!";
 };
 
-if (count _this < 4) exitWith
-{
-    diag_log "DMS ERROR :: Calling DMS_TargetsKilled with insufficient parameters!";
-};
-
-private _unit = _this select 0;
-private _group = _this select 1;
-private _object = _this select 2;
-private _threshold = _this select 3;
-
+private _initialUnitCount = _this select 0;
+private _args = _this select [1, count _this - 1];
 private _killedpercent = false;
 
-// Получение значения DMS_AI_KillPercent из config.sqf
+// Get the kill percent value from config
 private _killPercent = DMS_AI_KillPercent;
+diag_log format ["DMS DEBUG :: Kill percent value: %1", _killPercent];
+diag_log format ["DMS DEBUG :: Initial unit count: %1", _initialUnitCount];
 
-// Получение всех живых AI юнитов
-private _allUnits = [_unit, _group, _object] call DMS_fnc_GetAllUnits;
+// Calculate the acceptable number of killed units based on initial unit count
+private _unitsThreshold = ceil(_killPercent * _initialUnitCount / 100);
+diag_log format ["DMS DEBUG :: Units threshold (killed units): %1", _unitsThreshold];
+
+// Get all living AI units
+private _allUnits = _args call DMS_fnc_GetAllUnits;
 private _totalUnits = count _allUnits;
+diag_log format ["DMS DEBUG :: Total living units: %1", _totalUnits];
 
-// Подсчет убитых юнитов
-private _killedUnits = _totalUnits - {alive _x} count _allUnits;
+// Calculate the number of killed units
+private _killedUnits = _initialUnitCount - _totalUnits;
+diag_log format ["DMS DEBUG :: Total killed units: %1", _killedUnits];
 
-// Проверка, если процент убитых юнитов больше или равен DMS_AI_KillPercent
-if ((_killedUnits / _totalUnits) * 100 >= _killPercent) then
-{
+// Check if the number of killed units is greater than or equal to the threshold
+if (_killedUnits >= _unitsThreshold) then {
     _killedpercent = true;
+    diag_log "DMS DEBUG :: Kill percent condition met";
+} else {
+    diag_log "DMS DEBUG :: Kill percent condition not met";
 };
 
 _killedpercent;
